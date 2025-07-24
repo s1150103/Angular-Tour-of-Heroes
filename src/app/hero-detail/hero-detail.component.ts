@@ -1,20 +1,19 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Hero } from '../hero';
-import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';  
+import { Location } from '@angular/common';
+import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
-import { OnInit } from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
-  standalone: true,
   selector: 'app-hero-detail',
+  standalone:true,
   templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css'],
-  imports: [CommonModule, FormsModule],
+  styleUrls: [ './hero-detail.component.css' ],
+  imports: [UpperCasePipe, NgIf, FormsModule],
 })
-
 export class HeroDetailComponent implements OnInit {
   hero: Hero | undefined;
 
@@ -29,12 +28,19 @@ export class HeroDetailComponent implements OnInit {
   }
 
   getHero(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  save(): void {
+    if (this.hero) {
+      this.heroService.updateHero(this.hero)
+        .subscribe(() => this.goBack());
+    }
   }
 }

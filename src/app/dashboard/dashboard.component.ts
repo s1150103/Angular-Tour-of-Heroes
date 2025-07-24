@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; //
+import { RouterModule } from '@angular/router';
+import { HeroSearchComponent } from '../hero-search/hero-search.component';
+
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule,RouterModule],
+  standalone:true,
   templateUrl: './dashboard.component.html',
-  styleUrls: [ './dashboard.component.css' ]
+  styleUrls: [ './dashboard.component.css' ],
+  imports: [CommonModule, RouterModule, HeroSearchComponent],
 })
 export class DashboardComponent implements OnInit {
   heroes: Hero[] = [];
